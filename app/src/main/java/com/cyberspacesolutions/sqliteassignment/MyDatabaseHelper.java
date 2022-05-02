@@ -15,7 +15,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ID= "id";
     private static final String COLUMN_EXAM= "exam";
     private static final String COLUMN_LINK= "link";
-    
+
     public MyDatabaseHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
