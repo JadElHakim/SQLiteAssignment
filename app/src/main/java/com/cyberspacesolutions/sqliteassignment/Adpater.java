@@ -16,10 +16,13 @@ import java.util.ArrayList;
 public class Adpater extends RecyclerView.Adapter<Adpater.MyViewHolder> {
     Context context;
     ArrayList courses,links;
-    Adpater(Context context, ArrayList courses , ArrayList links){
+    OnExamListener onExamListener;
+    Adpater(Context context, ArrayList courses , ArrayList links, OnExamListener onExamListener){
         this.context = context;
         this.courses = courses;
         this.links = links;
+        this.onExamListener = onExamListener;
+
     }
 
     @NonNull
@@ -27,7 +30,7 @@ public class Adpater extends RecyclerView.Adapter<Adpater.MyViewHolder> {
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.view_row,parent,false);
-        return new MyViewHolder(view);
+        return new MyViewHolder(view, onExamListener);
     }
 
     @Override
@@ -40,11 +43,22 @@ public class Adpater extends RecyclerView.Adapter<Adpater.MyViewHolder> {
         return courses.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView courseT;
-        public MyViewHolder(View view) {
+        OnExamListener oe;
+        public MyViewHolder(View view, OnExamListener onExamListener) {
             super(view);
             courseT = view.findViewById(R.id.courseTitle);
+            this.oe = onExamListener;
+            view.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            oe.onExamClick(getAdapterPosition());
+        }
+    }
+    public interface OnExamListener{
+        void onExamClick(int pos);
     }
 }

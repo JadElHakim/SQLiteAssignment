@@ -5,13 +5,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Adpater.OnExamListener {
     RecyclerView recyclerView;
     MyDatabaseHelper db;
     ArrayList<String> courses,links;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 //        db.add("Web Development","https://www.w3schools.com/html/");
 //        db.add("Data Structures","https://www.youtube.com/channel/UCZCFT11CWBi3MHNlGf019nw");
         display();
-        ad = new Adpater(MainActivity.this,courses,links);
+        ad = new Adpater(MainActivity.this,courses,links,  this);
         recyclerView.setAdapter(ad);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
@@ -40,8 +41,15 @@ public class MainActivity extends AppCompatActivity {
         }else{
             while (cursor.moveToNext()){
                 courses.add(cursor.getString(0));
-                links.add(cursor.getString(0));
+                links.add(cursor.getString(1));
             }
         }
+    }
+
+    @Override
+    public void onExamClick(int pos) {
+        Intent intent = new Intent(this, webview.class);
+        intent.putExtra("link",links.get(pos));
+        startActivity(intent);
     }
 }
