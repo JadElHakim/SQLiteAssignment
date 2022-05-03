@@ -1,8 +1,11 @@
 package com.cyberspacesolutions.sqliteassignment;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -32,5 +35,30 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
+    }
+
+    void add(String exam,String link){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_EXAM,exam);
+        cv.put(COLUMN_LINK,link);
+       long result = db.insert(TABLE_NAME,null,cv);
+       if(result == -1){
+           Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+       }
+       else{
+           Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+       }
+    }
+
+    Cursor readAll(){
+        String query = " SELECT " +COLUMN_EXAM+","+COLUMN_LINK +" FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null){
+           cursor =  db.rawQuery(query,null);
+        }
+    return cursor;
     }
 }
