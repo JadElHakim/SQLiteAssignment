@@ -19,23 +19,14 @@ public class webview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
         context = this;
-
-      //  mWebView = (WebView) findViewById(R.id.webView);
-       // mWebView.setWebViewClient(new MyWebViewClient());
+        //create new webview and set it as view
         WebView myWebView = new WebView(this);
         setContentView(myWebView);
+        //get extra from previous acitivity
         Intent intent = getIntent();
         String url = intent.getStringExtra("link");
+        //load url from previous activity
         myWebView.loadUrl(url);
-     //   Toast.makeText(this, ""+url, Toast.LENGTH_SHORT).show();
-      //  mWebView.loadUrl(url);
     }
 
-//    private class MyWebViewClient extends WebViewClient{
-//        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//            Intent i = new Intent(Intent.ACTION_VIEW, request.getUrl());
-//            startActivity(i);
-//            return true;
-//        }
-//    }
 }
